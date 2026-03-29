@@ -1,37 +1,78 @@
-<html>
+// Updated WebGL HTML Code
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>WebGL Clone Chapter 1</title>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    /* Add additional styles here */
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poppy Playtime - Chapter 1</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
-  <h1>WebGL Clone Chapter 1</h1>
-  <p>Controls:</p>
-  <p>Use Q key for left hand controls and E key for right hand controls.</p>
-  <p>Hand animations added for better interaction feedback.</p>
-  <p>Experience vent chase sequences as you navigate through the environment.</p>
-  <p>Improved visual feedback enhances user experience. Adjust your strategy based on the GrabPack mechanics!</p>
-  <script>
-    // GrabPack functionality
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Q') {
-        // Code for left hand action
-        console.log('Left hand activated');
-        // Add animation code here
-      } else if (event.key === 'E') {
-        // Code for right hand action
-        console.log('Right hand activated');
-        // Add animation code here
-      }
-    });
-    // Vent chase sequence logic
-    function ventChase() {
-      // Implement vent chase logic
-      console.log('Chased through the vents!');
-      // Add animation / player movement code
-    }
-  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer;
+        let handLeft, handRight;
+        let grabPackActive = false;
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Lighting
+            const light = new THREE.AmbientLight(0xffffff, 1);
+            scene.add(light);
+
+            // Hands
+            createHands();
+
+            // Position camera
+            camera.position.z = 5;
+
+            window.addEventListener('keydown', onKeyDown);
+        }
+
+        function createHands() {
+            const handGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+            const handMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            handLeft = new THREE.Mesh(handGeometry, handMaterial);
+            handRight = new THREE.Mesh(handGeometry, handMaterial);
+
+            handLeft.position.x = -1;
+            handRight.position.x = 1;
+
+            scene.add(handLeft);
+            scene.add(handRight);
+        }
+
+        function onKeyDown(event) {
+            if (event.key === 'q') {
+                // Activate grab pack left
+                grabPackActive = true;
+                console.log('Grab pack activated with Q');
+            } else if (event.key === 'e') {
+                // Activate grab pack right
+                grabPackActive = true;
+                console.log('Grab pack activated with E');
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            // Update hand positions and any animations here
+            if (grabPackActive) {
+                // Implement grabbing mechanics
+            }
+            renderer.render(scene, camera);
+        }
+    </script>
 </body>
 </html>
